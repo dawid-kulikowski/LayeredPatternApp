@@ -1,9 +1,11 @@
 package application.api;
 
+import jakarta.servlet.http.HttpServlet;
+
+import java.net.http.HttpRequest;
 import java.util.List;
 
-public class RestApi implements Api{
-
+public class RestApi  implements Api  {
 
     @Override
     public void createUser() {
