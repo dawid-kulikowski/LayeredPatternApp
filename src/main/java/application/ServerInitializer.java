@@ -1,21 +1,31 @@
 package application;
 
+import application.api.UserApi;
+import application.api.servlet.UserServlet;
 import org.apache.catalina.Context;
+import org.apache.catalina.LifecycleException;
 import org.apache.catalina.startup.Tomcat;
 
 import java.io.File;
 
 public class ServerInitializer {
 
-            private static final Tomcat TOMCAT = new Tomcat();
+
+    private static final Tomcat TOMCAT = new Tomcat();
+
+    static {
         TOMCAT.setPort(8080);
-        Context context = tomcat.addContext("/", new File(".").getAbsolutePath());
+        Context context = TOMCAT.addContext("/", new File(".").getAbsolutePath());
 
-        Tomcat.addServlet(context, "userApi", new UserApi());
-    context.addServletMappingDecoded("/user", "userApi");
+        Tomcat.addServlet(context, "userApi", new UserServlet());
+        context.addServletMappingDecoded("/user", "userApi");
+    }
 
-    tomcat.start();
-    tomcat.getConnector();
-    tomcat.getServer().await();
+    public static void runServer() throws LifecycleException {
 
+        TOMCAT.start();
+        TOMCAT.getConnector();
+        TOMCAT.getServer().await();
+
+    }
 }
